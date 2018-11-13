@@ -1,0 +1,91 @@
+Host_Read_Write
+Prof_Host_write      2876010      2876007	5752017
+Prof_Host_read      2760607      2760224	5520831
+
+NAND_Read_Write
+Prof_NAND_write_4KB_page      3027669      3027510	6055179
+Prof_NAND_read      2760494      2760111	5520605
+Prof_NAND_erase      3145      3145	6290
+
+Read_page
+Prof_Read_read      2760286      2759919	5520205
+
+Write_page
+Prof_Write_write      2876002      2875995	5751997
+
+GC
+Prof_GC_write      0      0	0
+Prof_GC_read      0      0	0
+Prof_GC_erase      0      0	0
+
+L2P
+Prof_L2P_Total_log      18378      18360	36738
+Prof_L2P_Total_load      0      0	0
+Prof_L2P_GC_read      208      192	400
+Prof_L2P_GC_write      208      192	400
+Prof_L2P_erase      140      140	280
+Prof_L2P_HIT      0      0	0
+Prof_L2P_MISS      0      0	0
+Prof_P2L_Total_log      0      0	0
+
+P2L
+Prof_P2L_Total_load      0      0	0
+Prof_P2L_GC_read      0      0	0
+Prof_P2L_GC_write      0      0	0
+Prof_P2L_erase      0      0	0
+Prof_P2L_HIT      0      0	0
+Prof_P2L_MISS      0      0	0
+
+VC
+Prof_Remap_command_count      0      0	0
+Prof_Remap_Delayed_IC_valid      0      0	0
+Prof_Remap_BG_read      0      0	0
+Prof_Remap_FG_read      0      0	0
+Prof_Remap_Realcopy_write      0      0	0
+Prof_Remap_VC_count      0      0	0
+Prof_Remap_IC_count      0      0	0
+Prof_Remap_flush      0      0	0
+
+Dependency
+Prof_Depend_RAM_toal      0      0	0
+Prof_Depend_RAM_search      0      0	0
+Prof_Depend_RAM_hit      0      0	0
+Prof_Depend_MAW_hit      0      0	0
+
+Valid_Bitmap
+Prof_VB_write      4392      4400	8792
+
+Flush
+Prof_num_flush      6      6	12
+Prof_num_Bank_flush      37      37	74
+Prof_meta_flush      43      43	86
+Prof_Bank_meta_flush      43      43	86
+Prof_meta_erase      0      0	0
+Prof_buffer_flush_write      0      0	0
+Prof_L2P_flush_log      18378      18360	36738
+Prof_L2P_flush_load      0      0	0
+Prof_V2P_log_write      0      0	0
+
+Trim
+Prof_Trim_count      0      0	0
+
+SSD values
+Prof_CMT_size      0      0	0
+Prof_Flush_method      0      0	0
+Prof_BG_IC_enable      0      0	0
+Prof_Delayed_IC_method      0      0	0
+Prof_Kp      0      0	0
+Prof_ki      0      0	0
+Prof_Kd      0      0	0
+Prof_P2L_opt_enable      0      0	0
+
+ETC
+Prof_init_erase      3000      3000	6000
+reserve0      0      0	0
+reserve1      0      0	0
+reserve2      0      0	0
+reserve3      0      0	0
+reserve4      0      0	0
+reserve5      0      0	0
+reserve6      0      0	0
+reserve7      0      0	0
