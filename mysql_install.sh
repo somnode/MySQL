@@ -1,3 +1,5 @@
+sudo apt-get install libmysqlclient20 libmysqlclient-dev
+
 tar -xvf mysql-5.6.14.tar.gz
 cd mysql-5.6.14/
 cmake . -DCMAKE_INSTALL_PREFIX=/mnt/ -DMYSQL_DATADIR=/mnt/data -DMYSQL_UNIX_ADDR=/var/run/mysqld/mysqld.sock -DSYSCONFDIR=/etc -DMYSQL_TCP_PORT=3306 -DMYSQL_USER=mysql -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci -DWITH_EXTRA_CHARSETS=all -DENABLED_LOCAL_INFILE=1 -DWITH_INNOBASE_STORAGE_ENGINE=1 -DWITH_ARCHIVE_STORAGE_ENGINE=1 -DWITH_BLACKHOLE_STORAGE_ENGINE=1
@@ -18,7 +20,8 @@ sudo chown mysql:mysql /mnt/tmp /mnt/logs
 
 #- MariaDB system table 설치
 cd /mnt/scripts
-#cp /mnt/share/english/errmsg.sys /usr/share/mysql/errmsg.sys
+mkdir /usr/share/mysql
+cp /mnt/share/english/errmsg.sys /usr/share/mysql/
 sudo chown -R mysql:mysql /mnt
 sudo ./mysql_install_db --basedir=/mnt --user=mysql --datadir=/mnt/data
  
@@ -30,7 +33,7 @@ sudo cp mysql.server /etc/init.d/mysqld
 #chkconfig –add mysqld
  
 #* Debian, Ubuntu
-#update-rc.d mysqld defaults
+update-rc.d mysqld defaults
 
 #- library 등록
 sudo su
@@ -49,10 +52,10 @@ ln -s /mnt/bin/mysql /usr/local/bin/mysql
 ln -s /mnt/bin/mysqladmin /usr/local/bin/mysqladmin
 ln -s /mnt/bin/mysqldump /usr/local/bin/mysqldump
 ln -s /mnt/bin/mysql_config /usr/local/bin/mysql_config
- 
+
 #4. MariaDB 실행
-#cp /mnt/bin/mysqld_safe /usr/bin/mysqld_safe
-#/etc/init.d/mysqld start
+cp /mnt/bin/mysqld_safe /usr/bin/mysqld_safe
+/etc/init.d/mysqld start
  
 #- Root password 설정
 #mysqladmin -u root password ‘new-password’

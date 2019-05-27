@@ -15,11 +15,12 @@ rm -rf /mnt/*
 echo "filecopy Statr"
 cp -r ~/tpcc/data /mnt/
 #mv /mnt/data_tpcc_100 /mnt/data
+cd ~/MySQL/tpcc-mysql/
 cp my.cnf /etc/
 cp my.cnf /etc/mysql/
 cp my.cnf /mnt/
 
-cd ../mysql-5.6.14/BUILD
+cd ../mysql-5.6.14
 make -j9
 make install
 
@@ -33,7 +34,7 @@ chown mysql:mysql /mnt/tmp
 chown mysql:mysql /mnt/logs
 
 cd /mnt/scripts
-cp /mnt/share/english/errmsg.sys /usr/share/mysql/errmsg.sys
+#cp /mnt/share/english/errmsg.sys /usr/share/mysql/errmsg.sys
 chown -R mysql:mysql /mnt
 ./mysql_install_db --basedir=/mnt --user=mysql --datadir=/mnt/data
 
