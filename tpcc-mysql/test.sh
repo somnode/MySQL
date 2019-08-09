@@ -56,8 +56,9 @@ cp /mysql/bin/mysqld_safe /usr/bin/mysqld_safe
 systemctl daemon-reload
 /etc/init.d/mysqld start
 
-echo 3 > /proc/sys/vm/drop_caches
-cd /home/somnode/MySQL/tpcc-mysql
+#echo 3 > /proc/sys/vm/drop_caches
+#cd /home/somnode/MySQL/tpcc-mysql
+cd /root/MySQL/tpcc-mysql
 echo "FILEBENCH START"
-LD_LIBRARY_PATH=/mysql/lib/ ./tpcc_start -h localhost -P 3306 -d tpcc100 -u root -p "" -w 100 -c 30 -r 120 -l 600 > ~/tpcc/tpcc.trace
+LD_LIBRARY_PATH=/mysql/lib/ ./tpcc_start -h 0.0.0.0 -P 3306 -d tpcc100 -u root -p "" -w 100 -c 30 -r 120 -l 600 > ~/tpcc/tpcc.trace
 echo "FILEBENCH END"
