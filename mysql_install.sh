@@ -1,4 +1,6 @@
 sudo apt-get install libmysqlclient20 libmysqlclient-dev
+sudo apt-get install gcc g++
+sudo apt-get install fakeroot build-essential ncurses-dev xz-utils libssl-dev bc
 
 tar -xvf mysql-5.6.14.tar.gz
 cd mysql-5.6.14/
