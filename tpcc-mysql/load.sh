@@ -1,61 +1,61 @@
 /etc/init.d/mysqld stop
 
-rm -rf /mnt/*
+rm -rf /mysql/*
 
 # mysql build
 cd ../mysql-5.6.14/
 make -j9
 make install
 
-mkdir -p /mnt/InnoDB/redoLogs
-mkdir -p /mnt/InnoDB/undoLogs
-mkdir -p /mnt/InnoDB/ib_data
+mkdir -p /mysql/InnoDB/redoLogs
+mkdir -p /mysql/InnoDB/undoLogs
+mkdir -p /mysql/InnoDB/ib_data
 
-chgrp -R mysql /mnt
-chown -R mysql /mnt/data
-mkdir /mnt/logs /mnt/tmp
-chown mysql:mysql /mnt/tmp /mnt/logs
+chgrp -R mysql-lxc /mysql
+chown -R mysql-lxc /mysql/data
+mkdir /mysql/logs /mysql/tmp
+chown mysql-lxc:mysql-lxc /mysql/tmp /mysql/logs
 
 cd ~/MySQL/tpcc-mysql/
 cp my.cnf /etc/
 cp my.cnf /etc/mysql/
 cp my.cnf /etc/mysql/conf.d/
-cp my.cnf /mnt/
+cp my.cnf /mysql/
 
-cd /mnt/scripts
-#cp /mnt/share/english/errmsg.sys /usr/share/mysql/errmsg.sys
-chown -R mysql:mysql /mnt
-./mysql_install_db --defaults-file=/mnt/my.cnf --basedir=/mnt --user=mysql --datadir=/mnt/data
+cd /mysql/scripts
+#cp /mysql/share/english/errmsg.sys /usr/share/mysql/errmsg.sys
+chown -R mysql-lxc:mysql-lxc /mysql
+./mysql_install_db --defaults-file=/mysql/my.cnf --basedir=/mysql --user=mysql-lxc --datadir=/mysql/data
 
-cd /mnt/support-files
+cd /mysql/support-files
 cp mysql.server /etc/init.d/mysqld
 
 update-rc.d mysqld defaults
-echo "/mnt/lib" > /etc/ld.so.conf.d/mysql.conf
-cd /mnt
+echo "/mysql/lib" > /etc/ld.so.conf.d/mysql.conf
+cd /mysql
 ln -s lib lib64
 
 rm /usr/local/bin/mysql*
-ln -s /mnt/bin/mysql /usr/local/bin/mysql
-ln -s /mnt/bin/mysqladmin /usr/local/bin/mysqladmin
-ln -s /mnt/bin/mysqldump /usr/local/bin/mysqldump
-ln -s /mnt/bin/mysql_config /usr/local/bin/mysql_config
+ln -s /mysql/bin/mysql /usr/local/bin/mysql
+ln -s /mysql/bin/mysqladmin /usr/local/bin/mysqladmin
+ln -s /mysql/bin/mysqldump /usr/local/bin/mysqldump
+ln -s /mysql/bin/mysql_config /usr/local/bin/mysql_config
 
-cp /mnt/bin/mysqld_safe /usr/bin/mysqld_safe
+cp /mysql/bin/mysqld_safe /usr/bin/mysqld_safe
 systemctl daemon-reload
 /etc/init.d/mysqld start
 
 # load data
 cd ~/MySQL/tpcc-mysql
-/mnt/bin/mysqladmin create tpcc100
-/mnt/bin/mysql tpcc100 < create_table.sql
-/mnt/bin/mysql tpcc100 < add_fkey_idx.sql
-LD_LIBRARY_PATH=/mnt/lib/ ./tpcc_load -h localhost -d tpcc100 -u root -p "" -w 100
+/mysql/bin/mysqladmin create tpcc100
+/mysql/bin/mysql tpcc100 < create_table.sql
+/mysql/bin/mysql tpcc100 < add_fkey_idx.sql
+LD_LIBRARY_PATH=/mysql/lib/ ./tpcc_load -h localhost -d tpcc100 -u root -p "" -w 100
 
 /etc/init.d/mysqld stop
 
 # copy for backup
-cp -r /mnt/data ~/tpcc/
+cp -r /mysql/data ~/tpcc/
 echo "data copy completed."
 
 :<<'END'
