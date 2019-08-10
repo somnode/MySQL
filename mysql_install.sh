@@ -19,31 +19,31 @@ sudo apt-get install fakeroot build-essential ncurses-dev xz-utils libssl-dev bc
 
 tar -xvf mysql-5.6.14.tar.gz
 cd mysql-5.6.14/
-cmake . -DCMAKE_INSTALL_PREFIX=/mnt/ -DMYSQL_DATADIR=/mnt/data -DMYSQL_UNIX_ADDR=/var/run/mysqld/mysqld.sock -DSYSCONFDIR=/etc -DMYSQL_TCP_PORT=3306 -DMYSQL_USER=mysql -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci -DWITH_EXTRA_CHARSETS=all -DENABLED_LOCAL_INFILE=1 -DWITH_INNOBASE_STORAGE_ENGINE=1 -DWITH_ARCHIVE_STORAGE_ENGINE=1 -DWITH_BLACKHOLE_STORAGE_ENGINE=1
+cmake . -DCMAKE_INSTALL_PREFIX=/mysql/ -DMYSQL_DATADIR=/mysql/data -DMYSQL_UNIX_ADDR=/var/run/mysqld/mysqld.sock -DSYSCONFDIR=/etc -DMYSQL_TCP_PORT=3306 -DMYSQL_USER=mysql -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci -DWITH_EXTRA_CHARSETS=all -DENABLED_LOCAL_INFILE=1 -DWITH_INNOBASE_STORAGE_ENGINE=1 -DWITH_ARCHIVE_STORAGE_ENGINE=1 -DWITH_BLACKHOLE_STORAGE_ENGINE=1
 make
 sudo make install
 
 sudo groupadd -g 27 -o -r mysql
-sudo useradd -M -g mysql -o -r -d /mnt/data -s /bin/false -c “Mysql” -u 27 mysql
+sudo useradd -M -g mysql -o -r -d /mysql/data -s /bin/false -c “Mysql” -u 27 mysql
 
 #- 디렉토리 생성 및 권한 설정
-sudo mkdir -p /mnt/InnoDB/redoLogs
-sudo mkdir -p /mnt/InnoDB/undoLogs
-sudo mkdir -p /mnt/InnoDB/ib_data
-sudo chgrp -R mysql /mnt
-sudo chown -R mysql /mnt/data
-sudo mkdir /mnt/logs /mnt/tmp
-sudo chown mysql:mysql /mnt/tmp /mnt/logs
+sudo mkdir -p /mysql/InnoDB/redoLogs
+sudo mkdir -p /mysql/InnoDB/undoLogs
+sudo mkdir -p /mysql/InnoDB/ib_data
+sudo chgrp -R mysql /mysql
+sudo chown -R mysql /mysql/data
+sudo mkdir /mysql/logs /mysql/tmp
+sudo chown mysql-lxc:mysql-lxc /mysql/tmp /mysql/logs
 
 #- MariaDB system table 설치
-cd /mnt/scripts
+cd /mysql/scripts
 mkdir /usr/share/mysql
-cp /mnt/share/english/errmsg.sys /usr/share/mysql/
-sudo chown -R mysql:mysql /mnt
-sudo ./mysql_install_db --basedir=/mnt --user=mysql --datadir=/mnt/data
+cp /mysql/share/english/errmsg.sys /usr/share/mysql/
+sudo chown -R mysql-lxc:mysql-lxc /mysql
+sudo ./mysql_install_db --basedir=/mysql --user=mysql-lxc --datadir=/mysql/data
  
 #- mysqld startup script 설정
-cd /mnt/support-files
+cd /mysql/support-files
 sudo cp mysql.server /etc/init.d/mysqld
 
 #* CentOS
@@ -54,24 +54,24 @@ update-rc.d mysqld defaults
 
 #- library 등록
 sudo su
-echo “/mnt/lib” > /etc/ld.so.conf.d/mysql.conf
+echo “/mysql/lib” > /etc/ld.so.conf.d/mysql.conf
 
 #* 64bit의 경우
-cd /mnt
+cd /mysql
 ln -s lib lib64
 
 #- my.cnf 생성
-cd /mnt/support-files
+cd /mysql/support-files
 cp my-default.cnf /etc/my.cnf
 
 #- 주요 명령어 등록
-ln -s /mnt/bin/mysql /usr/local/bin/mysql
-ln -s /mnt/bin/mysqladmin /usr/local/bin/mysqladmin
-ln -s /mnt/bin/mysqldump /usr/local/bin/mysqldump
-ln -s /mnt/bin/mysql_config /usr/local/bin/mysql_config
+ln -s /mysql/bin/mysql /usr/local/bin/mysql
+ln -s /mysql/bin/mysqladmin /usr/local/bin/mysqladmin
+ln -s /mysql/bin/mysqldump /usr/local/bin/mysqldump
+ln -s /mysql/bin/mysql_config /usr/local/bin/mysql_config
 
-#4. MariaDB 실행
-cp /mnt/bin/mysqld_safe /usr/bin/mysqld_safe
+#4. MariaDB 실행 (I skipped this)
+cp /mysql/bin/mysqld_safe /usr/bin/mysqld_safe
 /etc/init.d/mysqld start
  
 #- Root password 설정
